@@ -4,6 +4,7 @@ from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from typing_extensions import TypedDict
 from langgraph.graph import StateGraph, START, END
+from langsmith import traceable
 
 load_dotenv()
 
@@ -19,6 +20,7 @@ class State(TypedDict):
 
 workflow = StateGraph(State)
 
+@traceable(name="categorize_experience")
 def categorize_experience(state:State) -> State:
     print('\nCategorizing the experience level of the candidate')
     prompt = ChatPromptTemplate.from_template("Based on the following job application, categorize the candidate as 'Entry-level', 'Mid-level' or 'Senior-level'"
@@ -27,6 +29,7 @@ def categorize_experience(state:State) -> State:
     experience_level = chain.invoke({"application":state["application"]}).content
     return {"experience_level":experience_level}
 
+@traceable(name="assess_skillset")
 def assess_skillset(state:State) -> State:
     print("\nAssessing the skillset of candidate : ")
     prompt = ChatPromptTemplate.from_template(
@@ -39,14 +42,18 @@ def assess_skillset(state:State) -> State:
     print(f"Skill Match : {skill_match}")
     return {"skill_match" : skill_match}
 
+
+@traceable(name="schedule_hr_interview")
 def schedule_hr_interview(state:State) -> State:
     print("\nScheduling the interview : ")
     return {"response" : "Candidate has been shortlisted for an HR interview."}
 
+@traceable(name="escalate_to_recruiter")
 def escalate_to_recruiter(state:State) -> State:
     print("\nEscalating to the recruiter")
     return {"response":"Candidate has been escalated to the recruiter."}
 
+@traceable(name="rejection_email")
 def rejection_email(state:State) -> State:
     print("Sending Rejection Email")
     return {"response":"Sending the rejection email as the candidate does not match the JD"}
@@ -82,6 +89,10 @@ def run_candidate_screening(application: str):
       "skill_match" : results["skill_match"],
       "response" : results["response"]
   }
+
+config = {
+    "run_name":"candidate_screening"
+}
 
 application_text = "I have 10 years of experience in software engineering with expertise in C#"
 results = run_candidate_screening(application_text)
