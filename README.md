@@ -1,6 +1,6 @@
-# 🧑‍💼 Candidate Screening Workflow with LangGraph
+# 🧑‍💼 Candidate Screening Workflow with LangGraph + LangSmith Tracing
 
-This project is an **AI-powered candidate screening system** built with [LangGraph](https://python.langchain.com/docs/langgraph/), [LangChain](https://www.langchain.com/), and OpenAI.  
+This project is an **AI-powered candidate screening system** built with [LangGraph](https://python.langchain.com/docs/langgraph/), [LangChain](https://www.langchain.com/), [LangSmith](https://smith.langchain.com/), and OpenAI.  
 It automatically evaluates job applications, categorizes candidates by **experience level**, checks for a **skill match**, and then decides whether to:  
 
 - ✅ Shortlist for HR interview  
@@ -10,6 +10,7 @@ It automatically evaluates job applications, categorizes candidates by **experie
 ---
 
 ## ✨ Features
+- **Integrated LangSmith tracing** – monitor, debug, and visualize workflow execution
 - **State machine workflow** with LangGraph  
 - **Experience level classification** (`Entry-level | Mid-level | Senior-level`)  
 - **Skillset assessment** (`Match | No Match`)  
@@ -19,6 +20,7 @@ It automatically evaluates job applications, categorizes candidates by **experie
 ---
 
 ## 🛠 Tech Stack
+- [LangSmith](https://smith.langchain.com/) – tracing & monitoring
 - [Python 3.10+](https://www.python.org/)  
 - [LangGraph](https://python.langchain.com/docs/langgraph/)  
 - [LangChain](https://www.langchain.com/)  
@@ -31,10 +33,12 @@ It automatically evaluates job applications, categorizes candidates by **experie
 ```
 .
 ├── main.py   # Main workflow
-├── .env                     # Stores API keys (ignored in git)
+├── .env.example              # Stores API keys (ignored in git)
 ├── requirements.txt         # Dependencies
 └── README.md                # Project documentation
 ```
+
+<img width="1440" height="822" alt="Image" src="https://github.com/user-attachments/assets/0d5a16ad-d707-4c26-abf9-d8819ccd50b7" />
 
 ---
 
@@ -88,6 +92,14 @@ Experience Level: Senior-level
 Skill Match: No Match
 Response: Candidate has been escalated to the recruiter.
 ```
+
+---
+
+## 🔍 LangSmith Integration
+LangSmith tracing is enabled in this project to:
+- Monitor each step of the LangGraph workflow
+- Debug model inputs/outputs
+- Visualize execution traces for better observability
 
 ---
 
